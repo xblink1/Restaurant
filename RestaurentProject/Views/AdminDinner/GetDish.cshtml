@@ -1,0 +1,167 @@
+﻿@model IEnumerable<FoodStore.DTOs.AdminDinerDTO.GetDinnerDTO>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GetDish</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p a {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+            p a:hover {
+                background-color: #218838;
+            }
+
+        .table {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+            .table thead {
+                background-color: #343a40;
+                color: white;
+            }
+
+                .table thead th {
+                    padding: 15px;
+                    text-align: left;
+                    font-size: 1.1em;
+                }
+
+            .table tbody tr {
+                transition: background-color 0.3s ease;
+            }
+
+                .table tbody tr:nth-child(even) {
+                    background-color: #f2f2f2;
+                }
+
+                .table tbody tr:hover {
+                    background-color: #e9ecef;
+                }
+
+            .table tbody td {
+                padding: 15px;
+                color: #333;
+                border-bottom: 1px solid #ddd;
+            }
+
+                .table tbody td:last-child {
+                    text-align: center;
+                }
+
+                .table tbody td a {
+                    text-decoration: none;
+                    color: #007bff;
+                    margin: 0 5px;
+                    font-weight: bold;
+                    transition: color 0.3s ease;
+                }
+
+                    .table tbody td a:hover {
+                        color: #0056b3;
+                    }
+
+                    .table tbody td a:nth-child(1):hover {
+                        color: #ffc107;
+                    }
+
+                    .table tbody td a:nth-child(2):hover {
+                        color: #17a2b8;
+                    }
+
+                    .table tbody td a:nth-child(3):hover {
+                        color: #dc3545;
+                    }
+
+    </style>
+</head>
+<body>
+    <h1>Dish Management</h1>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DishName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DishImage)
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DishName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DishImage)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Update Dish", "UpdateDinner", new { id = item.ID }) |
+                        
+                        @Html.ActionLink("Delete Dish", "DeleteDinner", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

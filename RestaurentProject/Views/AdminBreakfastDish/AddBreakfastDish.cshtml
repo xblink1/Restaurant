@@ -1,0 +1,113 @@
+﻿@model FoodStore.DTOs.AdminBreakFastDTO.AddBreakFastDishDTO
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddBreakfastDish</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5; /* light gray background color */
+        }
+
+        .container {
+            max-width: 80%;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff; /* white background color for container */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: #aaa;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #4CAF50; /* green */
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #3e8e41;
+        }
+
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h4>AddBreakFastDishDTO</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="AddBreakfastDish" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <div class="form-group">
+                        <label asp-for="DishName" class="control-label"></label>
+                        <input asp-for="DishName" class="form-control" />
+                        <span asp-validation-for="DishName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IMAGE" class="control-label"></label>
+                        <div class="custom-file">
+                            <input asp-for="IMAGE" class="custom-file-input" id="customfile" />
+                            <label class="custom-file-label" for="customfile">Choose File</label>
+                        </div>
+                        <span asp-validation-for="IMAGE" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="AdminIndex" asp-controller="Admin" style="background-color: #007bff; color: #ffffff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;" class="btn btn-default">Back</a>
+        </div>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
+    </div>
+</body>
+</html>

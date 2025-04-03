@@ -1,0 +1,218 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model IEnumerable<FoodStore.DTOs.CartDTO>
+
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #343a40;
+        margin-bottom: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 auto;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #343a40;
+        color: #fff;
+        text-transform: uppercase;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    img {
+        border-radius: 5px;
+        transition: transform 0.3s ease;
+    }
+
+        img:hover {
+            transform: scale(1.1);
+        }
+
+    td {
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+        td:last-child img {
+            display: block;
+            margin: 0 auto;
+        }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Responsive Design */
+
+
+</style>
+<!-- Navbar & Hero Start -->
+<div class="container-xxl position-relative p-0">
+    <div class="container-xxl py-5 bg-dark hero-header mb-5">
+        <div class="container text-center my-5 pt-5 pb-4">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Your Cart</h1>
+        </div>
+    </div>
+</div>
+<!-- Navbar & Hero End -->
+<body>
+    <form asp-action="DeleteAllItemFCart" asp-controller="Cart" method="post">
+        <button type="submit" class="btn btn-warning">Remove All Items from Cart</button>
+    </form>
+    <br/>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Image</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>@(item.Price * item.Quantity)</td>
+                    <td><img src="@Url.Content(item.ProductImage)" alt="@item.ProductName" style="width: 100px; height: auto;" /></td>
+                    <td>
+                        <form asp-action="DeleteSItem" asp-controller="Cart">
+                            <input type="hidden" name="id" value="@item.CartID" />
+                            <button class="btn btn-danger delete-item" data-id="@item.CartID">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <br />
+    <div style="display:flex;align-items:center; gap:800px">
+        <h4>Total Amount : @ViewBag.TotalPrice</h4>
+        <button id="rzp-button1" style="padding: 15px; background-color: orange; font-weight: bold; text-decoration: none; color: white;">
+            Pay Now
+        </button>  
+       
+
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+        $('#addToCartBtn').click(function () {
+            // Gather form data
+            var productName = $('#productName').val();
+            var price = $('#price').val();
+            var quantity = $('#quantity').val();
+            var productImage = $('#productImage').val();
+            var userName = $('#userName').val();
+
+            // AJAX request to add product to cart
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddToCart", "Cart")", // URL to hit the AddToCart action
+                data: {
+                    productName: productName,
+                    price: price,
+                    quantity: quantity,
+                    productImage: productImage,
+                    userName: userName
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Success handling, update cart count
+                        var currentCount = parseInt($('#cart-count').text()) || 0;
+                        $('#cart-count').text(currentCount + parseInt(quantity));
+
+                        alert('Product added to cart successfully!');
+                    } else {
+                        alert(response.message); // Display error message if any
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("An error occurred: " + error); // Handle any errors that occur
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".delete-item").click(function (e) {
+            e.preventDefault();
+
+            var button = $(this);
+            var itemId = button.data("id");
+
+            $.ajax({
+                url: '@Url.Action("DeleteSItem", "Cart")',
+                type: 'POST',
+                data: { id: itemId },
+                success: function (response) {
+                    if (response.success) {
+                        // Remove the row of the deleted item
+                        button.closest('tr').remove();
+
+                        // Update the cart count in the UI
+                        $('#cart-count').text(response.cartCount);
+                    } else {
+                        alert("Failed to delete item.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("An error occurred:", status, error);
+                    alert("An error occurred while deleting the item.");
+                }
+            });
+        });
+    });
+</script>
+<script>
+    document.getElementById('rzp-button1').onclick = function (e) {
+        e.preventDefault();
+
+        // Convert your total price into paise (multiply by 100 for INR)
+        var totalAmount = "@ViewBag.TotalPrice" * 100; // Razorpay expects amount in paisa
+
+        // Razorpay payment link
+        var paymentLink = "https://razorpay.me/@@Jitendra1";
+
+        // Open the payment link in a new tab with the total amount (if Razorpay supports such a query param)
+        window.open(paymentLink + "?amount=" + totalAmount, '_blank');
+    };
+</script>
+
+
+
+

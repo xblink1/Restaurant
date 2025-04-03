@@ -1,0 +1,103 @@
+﻿@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin Panel</title>
+	<style>
+		/* Advanced CSS styles */
+		.admin-panel {
+			background-color: #f0f0f0;
+			padding: 20px;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+
+			.admin-panel h1 {
+				color: #333;
+				font-size: 24px;
+				margin-bottom: 10px;
+				text-align: center;
+			}
+
+		.button-container {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 20px;
+		}
+
+		.button {
+			background-color: #fff;
+			color: #333;
+			border: none;
+			padding: 10px 20px;
+			font-size: 16px;
+			cursor: pointer;
+			border-radius: 5px;
+			margin: 10px;
+		}
+
+			.button:hover {
+				background-color: #ccc;
+				color: #fff;
+			}
+
+		.create-button {
+			background-color: #4CAF50;
+			color: #fff;
+		}
+
+		.read-button {
+			background-color: #2196F3;
+			color: #fff;
+		}
+
+		.update-button {
+			background-color: #FFC107;
+			color: #fff;
+		}
+
+		.delete-button {
+			background-color: #FF3737;
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<h1>Admin Panel</h1>
+	<div class="admin-panel">
+		
+		<h1>Break Fast Section</h1>
+		<div class="button-container">
+			<button class="button create-button" onclick="location.href='@Url.Action("AddBreakfastDish","AdminBreakfastDish")'">Add Dish</button>
+			<button class="button read-button" onclick="location.href='@Url.Action("GetDish","AdminBreakfastDish")'">View Dishes</button>
+			<button class="button update-button" onclick="location.href='@Url.Action("GetDish","AdminBreakfastDish")'">Update Dish</button>
+			<button class="button create-button" onclick="location.href='@Url.Action("GetDish","AdminBreakfastDish")'">Delete Dish</button>
+		</div>
+	</div>
+	<br/>
+	<br/>
+	<div class="admin-panel">
+		<h1>Dinner Dish Section</h1>
+		<div class="button-container">
+			<button class="button create-button" onclick="location.href='@Url.Action("AddDish","AdminDinner")'">Add Dish</button>
+			<button class="button read-button" onclick="location.href='@Url.Action("GetDish","AdminDinner")'">View Dishes</button>
+			<button class="button update-button" onclick="location.href='@Url.Action("GetDish","AdminDinner")'">Update Dish</button>
+			<button class="button create-button" onclick="location.href='@Url.Action("GetDish","AdminDinner")'">Delete Dish</button>
+		</div>
+	</div>
+	<br/>
+	<br/>
+	<div class="admin-panel">
+		<h1>Lunch Dish Section</h1>
+		<div class="button-container">
+			<button class="button create-button" onclick="location.href='@Url.Action("AddLunchDish","AdminLunch")'">Add Dish</button>
+			<button class="button read-button" onclick="location.href='@Url.Action("GetLunchDish","AdminLunch")'">View Dishes</button>
+			<button class="button update-button" onclick="location.href='@Url.Action("GetLunchDish","AdminLunch")'">Update Dish</button>
+			<button class="button create-button" onclick="location.href='@Url.Action("GetLunchDish","AdminLunch")'">Delete Dish</button>
+		</div>
+	</div>
+</body>
+</html>
